@@ -13,6 +13,7 @@ dependencies = [
     "langchain-community>=0.3.29",
     "langchain-ollama>=0.3.7",
     "langchain-openai>=0.3.32",
+    "langgraph>=0.6.6",
     "pinecone>=7.3.0",
     "pinecone-client>=6.0.0",
     "pinecone-notebooks>=0.1.1",

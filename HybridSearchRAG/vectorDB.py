@@ -80,9 +80,6 @@ def setup(filePath: str, indexName: str):
 
     print("Index setup complete and vectors have been upserted!")
 
-    retriever = PineconeHybridSearchRetriever(embeddings=dense_embedder,sparse_encoder=bm25_encoder,index=index)
-    print("Hybrid retriever initialized.")
-
     return f"Success! Index '{indexName}' is updated with the contents of {os.path.basename(filePath)}."
 
     
