@@ -6,10 +6,15 @@ This repository contains implementations and experiments with Retrieval-Augmente
 
 - `main.py`: Entry point for running RAG experiments.
 
-- `InMemoryRAG/`: Contains core modules for RAG implementations.
+- `InMemoryRAG/`: Contains core modules for In Memory(RAM) RAG implementations.
 
   - `main.py`: Main logic for in-memory RAG.
   - `models.py`: Model definitions and utilities.
+  - `prompts.py`: Prompt templates and management.
+
+- `InStorageRAG/` : Contains core modules for Persistant Storage RAG.
+  - `main.py`: Main logic for in-storage RAG.
+  - `vector.py`: ChromaDB embeddings and storage.
   - `prompts.py`: Prompt templates and management.
 - `docs/`: Contains reference papers and documentation.
 - `pyproject.toml`, `uv.lock`: Project dependencies and environment configuration.
