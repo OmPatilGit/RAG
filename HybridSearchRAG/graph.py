@@ -1,27 +1,30 @@
 from langchain_core.messages import BaseMessage
 from langgraph.graph import StateGraph, START, END
-from typing import TypedDict, Annotated, List
+from typing import TypedDict, List ,Annotated
 from operator import add
 from langchain_core.documents import Document
+from IPython.display import Image, display
 
+from HybridSearchRAG.model import GenModel
+from HybridSearchRAG.retriever import get_hybrid_retriever
+from HybridSearchRAG.prompts import GRADE_DOCS, FINAL_ANSWER
 
-from model import model
-from retriever import get_hybrid_retriever
-from prompts import GRADE_DOCS, FINAL_ANSWER
-
-model = model()
+model = GenModel()
 retriever = get_hybrid_retriever()
 
 class AgentState(TypedDict):
-    messages : List[BaseMessage]
+    messages : Annotated[List[BaseMessage], add]
     question : str
-    documents : List[Document]
+    documents :Annotated[ List[Document], add]
     relevance : str
     result : str
 
 def retriever_node(state : AgentState) -> AgentState:
     print("--- RETRIEVING DOCUMENTS ---")
-    query = state['question']
+    if state['question']:
+        query = state['question']
+    else:
+        query = state['messages'][-1].content
     result = retriever.invoke(query)
     print(f"--- RETRIEVED {len(result)} DOCUMENTS ---")
     return {"documents" : result}
@@ -33,7 +36,7 @@ def grade_docs(state : AgentState) -> AgentState:
     prompt = GRADE_DOCS.format_prompt(question=question, documents=docs)
 
     result = model.invoke(prompt)
-    if "yes" in result.lower():
+    if "yes" in result.content.lower():
         print("--- GRADE: DOCUMENTS ARE RELEVANT ---")
         return {"relevance": "YES"}
     else:
@@ -60,25 +63,11 @@ def should_continue(state : AgentState):
         return "CONTINUE"
     return "END"
 
-graph = StateGraph(AgentState)
 
-graph.add_node("RETRIEVER NODE", retriever_node)
-graph.add_node("GRADE NODE", grade_docs)
-graph.add_node("GENERATION NODE", generation)
-
-graph.add_edge(START, "RETRIEVER NODE")
-graph.add_edge("RETRIEVER NODE", "GRADE NODE")
-
-graph.add_conditional_edges(
-    "GRADE NODE",
-    should_continue,
-    {
-        "CONTINUE" : "GENERATION NODE",
-        "END" : END
-    }
-)
-
-graph.add_edge("GENERATION NODE", END)
-
-app = graph.compile()
-
+if __name__ == "__main__":
+    try:
+        with open("graph_visualization.png", "wb") as f:
+            f.write(app.get_graph().draw_mermaid_png())
+        print("Graph visualization saved to graph_visualization.png")
+    except Exception as e:
+        print(f"Error saving graph visualization: {e}")
