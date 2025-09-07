@@ -16,6 +16,17 @@ This repository contains implementations and experiments with Retrieval-Augmente
   - `main.py`: Main logic for in-storage RAG.
   - `vector.py`: ChromaDB embeddings and storage.
   - `prompts.py`: Prompt templates and management.
+
+- `HybridSearchRAG/` : Contains core modeules for Hybrid (Semantic + Syntactic) RAG.
+  - `graph.png`: Langgraph workflow graph image.
+  - `graph.py`: Nodes required for langgraph.
+  - `main.py`: Main logic for Hybrid Search RAG.
+  - `model.py`: Generative Model for Text Generation.
+  - `prompts.py`: Prompts required by model for answerign queries.
+  - `retriever.py`: The pinecone retriever for Hybrid Search
+  - `trial.ipynb`: Not core file, just for testing.
+  - `vectorDB`: Chunking -> Embeddings -> Upserting data into Pinecone.
+
 - `docs/`: Contains reference papers and documentation.
 - `pyproject.toml`, `uv.lock`: Project dependencies and environment configuration.
 
