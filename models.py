@@ -11,7 +11,7 @@ from typing import List
 from langchain_ollama import OllamaEmbeddings
 
 
-def GenModel(name : str = "gpt-oss-120b", 
+def GenModel(name : str = "gpt-oss-120b:free", 
              temperature : float = 1.0):
     
     llm = ChatOpenAI(
