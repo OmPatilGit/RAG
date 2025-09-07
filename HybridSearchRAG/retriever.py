@@ -24,7 +24,6 @@ def get_hybrid_retriever():
     loader = PyPDFLoader(file_path=FILE_PATH)
     corpus_docs = loader.load()
     corpus_text = [doc.page_content for doc in corpus_docs]
-
     bm25_encoder = BM25Encoder()
     bm25_encoder.fit(corpus_text)
     print("BM25Encoder is ready.")
@@ -35,6 +34,7 @@ def get_hybrid_retriever():
         sparse_encoder=bm25_encoder,
         index=index,
         top_k=2,
+        text_key="text"
     )
     print("Hybrid retriever successfully created.")
     return retriever
