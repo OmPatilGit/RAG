@@ -28,7 +28,6 @@ graph.add_conditional_edges(
 graph.add_edge("GENERATION NODE", END)
 app = graph.compile()
 
-# ...existing code...
 
 initial_state = {
     "messages": [],
